@@ -44,7 +44,6 @@ class AnimeViewModelTest {
         Dispatchers.setMain(dispatcher)
         MockitoAnnotations.initMocks(this)
         animeViewModel = AnimeViewModel(getAnimesUseCase)
-        animeViewModel.setUseCase(getAnimesUseCase)
     }
 
     @Test
