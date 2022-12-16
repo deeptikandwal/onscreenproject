@@ -2,7 +2,7 @@ package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.model.Employee
-import com.project.onscreen.data.usecase.GetEmployeesUseCase
+import com.project.onscreen.data.domain.usecase.GetEmployeesUseCase
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.HomeScreenViewModel
 import kotlinx.coroutines.Dispatchers

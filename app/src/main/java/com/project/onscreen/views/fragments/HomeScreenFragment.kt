@@ -72,7 +72,7 @@ class HomeScreenFragment : Fragment() {
                         fragmentHomeScreenBinding.progress.visibility = View.VISIBLE
                     }
 
-                    is OnScreenState.EMPLOYEES -> {
+                    is OnScreenState.EMPLOYEES_SUCCESS -> {
                         fragmentHomeScreenBinding.progress.visibility = View.GONE
                         fragmentHomeScreenBinding.recycler.visibility = View.VISIBLE
                         updateList(it.user as ArrayList<Employee>)

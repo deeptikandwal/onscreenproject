@@ -5,9 +5,9 @@ import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.model.Anime
 import com.project.onscreen.data.model.Employee
 import com.project.onscreen.data.repository.MainRepository
-import com.project.onscreen.data.usecase.GetAnimesUseCaseImpl
-import com.project.onscreen.data.usecase.GetEmployeesUseCase
-import com.project.onscreen.data.usecase.GetEmployeesUseCaseImpl
+import com.project.onscreen.data.domain.usecase.GetAnimesUseCaseImpl
+import com.project.onscreen.data.domain.usecase.GetEmployeesUseCase
+import com.project.onscreen.data.domain.usecase.GetEmployeesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

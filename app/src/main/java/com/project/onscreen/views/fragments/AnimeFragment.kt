@@ -55,7 +55,7 @@ class AnimeFragment : Fragment() {
                         fragmentAnimeBinding.progress.visibility = View.VISIBLE
                     }
 
-                    is OnScreenState.Animes -> {
+                    is OnScreenState.SUCCESS -> {
                         fragmentAnimeBinding.recyclerView.visibility = View.VISIBLE
                         fragmentAnimeBinding.progress.visibility = View.GONE
 

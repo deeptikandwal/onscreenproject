@@ -1,4 +1,4 @@
-package com.project.onscreen.data.usecase
+package com.project.onscreen.data.domain.usecase
 
 import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.model.Anime
