@@ -1,10 +1,9 @@
-package com.project.onscreen.com.project.onscreen.data.usecase
+package com.project.onscreen.com.project.onscreen.domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.model.Employee
 import com.project.onscreen.data.repository.MainRepository
-import com.project.onscreen.domain.usecase.GetEmployeesUseCase
 import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,7 +12,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

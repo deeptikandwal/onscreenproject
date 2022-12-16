@@ -7,6 +7,7 @@ import com.project.onscreen.domain.usecase.GetAnimesUseCase
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
 import com.project.onscreen.views.viewmodel.AnimeViewModel
+import io.mockk.every
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
