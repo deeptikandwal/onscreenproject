@@ -3,7 +3,7 @@ package com.project.onscreen.com.project.onscreen.views.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.model.Anime
 import com.project.onscreen.data.model.Employee
-import com.project.onscreen.data.domain.usecase.GetAnimesUseCase
+import com.project.onscreen.domain.usecase.GetAnimesUseCase
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
 import com.project.onscreen.views.viewmodel.AnimeViewModel

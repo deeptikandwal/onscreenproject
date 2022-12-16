@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.model.Employee
 import com.project.onscreen.data.repository.MainRepository
-import com.project.onscreen.data.domain.usecase.GetEmployeesUseCase
-import com.project.onscreen.data.domain.usecase.GetEmployeesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetEmployeesUseCase
+import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.onscreen.data.api.ApiConstants
-import com.project.onscreen.data.domain.usecase.GetAnimesUseCase
+import com.project.onscreen.domain.usecase.GetAnimesUseCase
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +28,7 @@ class AnimeViewModel @Inject constructor(@Named(ApiConstants.BASE_URL_ANIME) var
         handleOperation()
     }
 
-    fun handleOperation() {
+   private fun handleOperation() {
         viewModelScope.launch {
             intentOnScreen.consumeAsFlow().collect {
                 when (it) {

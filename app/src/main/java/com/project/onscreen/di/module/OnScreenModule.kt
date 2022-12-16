@@ -9,10 +9,10 @@ import com.project.onscreen.data.api.ApiHelperImpl
 import com.project.onscreen.data.api.ApiService
 import com.project.onscreen.data.repository.MainRepository
 import com.project.onscreen.data.repository.MainRepositoryImpl
-import com.project.onscreen.data.domain.usecase.GetAnimesUseCase
-import com.project.onscreen.data.domain.usecase.GetAnimesUseCaseImpl
-import com.project.onscreen.data.domain.usecase.GetEmployeesUseCase
-import com.project.onscreen.data.domain.usecase.GetEmployeesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetAnimesUseCase
+import com.project.onscreen.domain.usecase.GetAnimesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetEmployeesUseCase
+import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

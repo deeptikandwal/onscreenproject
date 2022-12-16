@@ -22,12 +22,8 @@ j
 :app/src/main/java/com/project/onscreen/data/model/Anime.kt,b\3\b3c6e81031c059dd6ea62f89353b7bc3fcacfc6d
 o
 ?app/src/main/java/com/project/onscreen/data/api/ApiConstants.kt,4\3\43c8ad7d3213858f4c84adaff051b6fcf5b71f6e
-l
-<app/src/main/java/com/project/onscreen/data/api/ApiHelper.kt,8\d\8da9020402ebb912a302c6abeba15975e20a9c31
 p
 @app/src/main/java/com/project/onscreen/data/api/ApiHelperImpl.kt,a\a\aa44161b7d5831f3a8617307dbda241134101557
-m
-=app/src/main/java/com/project/onscreen/data/api/ApiService.kt,3\2\32c35bb58c8685fdc8727cf527849f5748297b49
 m
 =app/src/main/java/com/project/onscreen/data/model/Employee.kt,b\e\bea93a45ad1b3b93a01924c09b31ddb38a6832dd
 x
@@ -38,8 +34,6 @@ z
 Japp/src/main/java/com/project/onscreen/data/usecase/GetEmployeesUseCase.kt,1\d\1d15e4ca521e6e5ec7c0117cf2cedf2fc3424c92
 i
 9app/src/main/java/com/project/onscreen/MainApplication.kt,0\9\09cc29a19214ee2be626c0131acb250760c5fb0c
-x
-Happ/src/main/java/com/project/onscreen/data/repository/MainRepository.kt,7\4\74a30758fe8862529eea231091b143c2fdb899ad
 |
 Lapp/src/main/java/com/project/onscreen/data/repository/MainRepositoryImpl.kt,7\f\7fde1dc5024c668dd9b19c394e9a02bfe1398eb7
 w

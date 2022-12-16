@@ -8,12 +8,13 @@ interface MainRepository {
 
     fun getEmployeesList(): List<Employee>
 
-   suspend fun saveAnimes(list: ArrayList<Anime>)
-   suspend fun clearAnimes()
+    suspend fun saveAnimes(list: ArrayList<Anime>)
 
-   suspend fun saveQuery(query: String)
+    suspend fun clearAnimes()
 
-   suspend fun getQuery(): String
+    suspend fun saveQuery(query: String)
+
+    suspend fun getQuery(): String
 
     suspend fun getAnimeList(): List<Anime>
 }

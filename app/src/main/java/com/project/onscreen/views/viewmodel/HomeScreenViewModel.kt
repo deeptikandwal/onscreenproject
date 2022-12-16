@@ -3,7 +3,7 @@ package com.project.onscreen.views.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.onscreen.data.api.ApiConstants
-import com.project.onscreen.data.domain.usecase.GetEmployeesUseCase
+import com.project.onscreen.domain.usecase.GetEmployeesUseCase
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ class HomeScreenViewModel @Inject constructor(
         handleOperation()
     }
 
-     fun handleOperation() {
+   private  fun handleOperation() {
         viewModelScope.launch {
             intentOnScreen.consumeAsFlow().collect {
                 when (it) {
