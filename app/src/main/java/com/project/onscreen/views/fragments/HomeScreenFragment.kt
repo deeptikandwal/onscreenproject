@@ -20,6 +20,7 @@ import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
 import com.project.onscreen.views.viewmodel.HomeScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -69,7 +70,11 @@ class HomeScreenFragment : Fragment() {
                         fragmentHomeScreenBinding.progress.visibility = View.GONE
                     }
                     is OnScreenState.LOADING -> {
-                        fragmentHomeScreenBinding.progress.visibility = View.VISIBLE
+                        fragmentHomeScreenBinding.progress.also {
+                            it.visibility=View.VISIBLE
+                        }
+                        fragmentHomeScreenBinding.recycler.visibility = View.GONE
+
                     }
 
                     is OnScreenState.EMPLOYEES_SUCCESS -> {

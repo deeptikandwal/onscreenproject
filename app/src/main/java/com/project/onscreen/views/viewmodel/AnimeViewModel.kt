@@ -10,6 +10,7 @@ import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +36,7 @@ class AnimeViewModel @Inject constructor(@Named(ApiConstants.BASE_URL_ANIME) var
                     is OnScreenIntent.FetchAnimes -> {
                         _state.emit(OnScreenState.LOADING)
                         try {
+                            delay(500)
                             _state.emit(OnScreenState.SUCCESS(getAnimesUseCase.getAnimes(title.value.toString())))
                         } catch (e: Exception) {
                             _state.emit(OnScreenState.ERROR(e.message))
@@ -43,11 +45,6 @@ class AnimeViewModel @Inject constructor(@Named(ApiConstants.BASE_URL_ANIME) var
                 }
             }
         }
-    }
-
-    @VisibleForTesting
-    fun setUseCase(getAnimesUseCase: GetAnimesUseCase) {
-        this.getAnimesUseCase = getAnimesUseCase
     }
 
 }

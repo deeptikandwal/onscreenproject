@@ -53,6 +53,8 @@ class AnimeFragment : Fragment() {
                     }
                     is OnScreenState.LOADING -> {
                         fragmentAnimeBinding.progress.visibility = View.VISIBLE
+                        fragmentAnimeBinding.recyclerView.visibility = View.GONE
+
                     }
 
                     is OnScreenState.SUCCESS -> {
