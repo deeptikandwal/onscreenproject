@@ -11,7 +11,9 @@
         tools:layout="@layout/fragment_home_screen">
         <action android:id="@+id/homescreen_to_detailscreen"
             app:destination="@id/animeFragment"
-            app:launchSingleTop="true"/>
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/homescreen"/>
     </fragment>
 
     <fragment android:name="com.project.onscreen.views.fragments.AnimeFragment"

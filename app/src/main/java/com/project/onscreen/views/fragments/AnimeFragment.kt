@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.project.onscreen.R
 import com.project.onscreen.databinding.FragmentAnimeBinding
 import com.project.onscreen.views.adapter.AnimeAdapter
 import com.project.onscreen.views.intent.OnScreenIntent
@@ -77,7 +78,7 @@ class AnimeFragment : Fragment() {
 
     private fun setViews() {
         fragmentAnimeBinding.back.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.homescreen)
         }
         fragmentAnimeBinding.idSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

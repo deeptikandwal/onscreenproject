@@ -2,6 +2,8 @@ package com.project.onscreen.com.project.onscreen.domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.api.ApiHelper
+import com.project.onscreen.data.model.EmployeeList
+import com.project.onscreen.data.repository.OnScreenRepository
 import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,33 +30,26 @@ class GetEmployeeUseCaseImpl {
     @Mock
     lateinit var apiHelper: ApiHelper
     @Mock
-    lateinit var mainRepository: MainRepository
+    lateinit var onScreenRepository: OnScreenRepository
     @Mock
-    lateinit var mockList:ArrayList<Employee>
+    lateinit var mockList:ArrayList<EmployeeList>
     @Before
     fun setUp(){
         MockitoAnnotations.initMocks(this)
         Dispatchers.setMain(dispatcher)
-        getEmployeesUseCaseImpl= GetEmployeesUseCaseImpl(apiHelper,mainRepository)
+        getEmployeesUseCaseImpl= GetEmployeesUseCaseImpl(onScreenRepository)
     }
 
     @Test
-    fun `get Employees when repository is empty`()= runTest{
-        val arrayList= arrayListOf(Employee(1,"Jonas","jona@gmail.com"))
-        Mockito.`when`(mainRepository.getEmployeesList()).thenReturn(mockList)
-        Mockito.`when`(mockList.isEmpty()).thenReturn(true)
-        Mockito.`when`(apiHelper.getEmployees()).thenReturn(arrayList)
+    fun `get employees in case of success`()= runTest{
         getEmployeesUseCaseImpl.getEmployees()
-        Mockito.verify(mainRepository).saveEmployees(arrayList)
-        Mockito.verify(mainRepository,Mockito.times(1)).getEmployeesList()
+        Mockito.verify(onScreenRepository,Mockito.times(1)).getEmployees()
     }
 
     @Test
-    fun `get Employees when repository is not empty`()= runTest{
-        Mockito.`when`(mainRepository.getEmployeesList()).thenReturn(mockList)
-        Mockito.`when`(mockList.isEmpty()).thenReturn(false)
+    fun `get employees in case of failure`()= runTest{
         getEmployeesUseCaseImpl.getEmployees()
-        Mockito.verify(mainRepository,Mockito.times(2)).getEmployeesList()
+        Mockito.verify(onScreenRepository,Mockito.times(1)).getEmployees()
     }
     @After
     fun tearDown(){

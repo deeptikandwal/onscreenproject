@@ -1,7 +1,7 @@
 package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.domain.usecase.GetEmployeesUseCase
+import com.project.onscreen.domain.contract.GetEmployeesUseCase
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.HomeScreenViewModel
 import kotlinx.coroutines.Dispatchers
@@ -44,10 +44,10 @@ class HomeScreenViewModelTest {
     @Test
     fun handleOperationSuccessTest(): Unit = runTest {
         val intentOnScreen = homeScreenViewModel.intentOnScreen
-        Mockito.`when`(getEmployeesUseCase.getEmployees()).thenReturn(mutableListOf(Employee(0,"jo")))
+        Mockito.`when`(getEmployeesUseCase.getEmployees()).thenReturn(arrayListOf())
         intentOnScreen.send(OnScreenIntent.FetchEmployees)
         Mockito.verify(getEmployeesUseCase).getEmployees()
-        Assert.assertNotEquals(getEmployeesUseCase.getEmployees().size,0)
+        Assert.assertNotEquals(getEmployeesUseCase.getEmployees()?.size,0)
     }
 
     @Test(expected =retrofit2.HttpException::class )
@@ -62,7 +62,7 @@ class HomeScreenViewModelTest {
             )
         )
         intentOnScreen.send(OnScreenIntent.FetchEmployees)
-        Assert.assertEquals(getEmployeesUseCase.getEmployees().size,0)
+        Assert.assertEquals(getEmployeesUseCase.getEmployees()?.size,0)
 
     }
 

@@ -1,5 +1,6 @@
 package com.project.onscreen.domain.usecase
 import com.project.onscreen.data.model.Anime
+import com.project.onscreen.domain.contract.GetAnimesUseCase
 import com.project.onscreen.data.repository.OnScreenRepository
 
 class GetAnimesUseCaseImpl(

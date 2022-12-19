@@ -42,12 +42,6 @@ class HomeScreenFragment : Fragment() {
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch {
-            mhomescreenViewModel.intentOnScreen.send(OnScreenIntent.FetchEmployees)
-        }
-    }
     private fun setViews() {
         fragmentHomeScreenBinding.recycler.run {
             addItemDecoration(
@@ -100,8 +94,7 @@ class HomeScreenFragment : Fragment() {
 
     }
 
-
-        private fun updateList(users: ArrayList<EmployeeList>) {
+    private fun updateList(users: ArrayList<EmployeeList>) {
         users.let {
             adapter.clearItem()
             adapter.addItem(users)
