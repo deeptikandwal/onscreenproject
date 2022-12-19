@@ -1,7 +1,7 @@
 package com.project.onscreen.domain.usecase
 
-import com.project.onscreen.data.model.Employee
+import com.project.onscreen.data.model.EmployeeList
 
 interface GetEmployeesUseCase {
-    suspend fun getEmployees():List<Employee>
+    suspend fun getEmployees(): ArrayList<EmployeeList>?
 }

@@ -3,7 +3,6 @@ package com.project.onscreen.com.project.onscreen.domain.usecase
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.model.Anime
-import com.project.onscreen.data.repository.MainRepository
 import com.project.onscreen.domain.usecase.GetAnimesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,24 +1,21 @@
 package com.project.onscreen.views.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.project.onscreen.data.model.Anime
 import com.project.onscreen.databinding.AnimeListBinding
-class AnimeAdapter( val employees: ArrayList<Anime>?) :
+
+class AnimeAdapter(val employees: ArrayList<Anime>?) :
     RecyclerView.Adapter<AnimeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
         val binding = AnimeListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = AnimeViewHolder(binding.root)
-        holder.bind(binding)
+        val holder = AnimeViewHolder(binding)
         return holder
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        holder.binding.name.text = employees?.get(position)?.anime
-        holder.binding.character.text = employees?.get(position)?.character
-        holder.binding.quote.text = employees?.get(position)?.quote
+        holder.bind(employees?.get(position))
     }
 
     override fun getItemCount(): Int {
@@ -30,15 +27,17 @@ class AnimeAdapter( val employees: ArrayList<Anime>?) :
             employees?.addAll(it)
         }
     }
+
     fun clearItems() {
         employees?.clear()
     }
 }
 
-class AnimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    lateinit var binding: AnimeListBinding
-    fun bind(binding: AnimeListBinding) {
-        this.binding = binding
+class AnimeViewHolder(val binding: AnimeListBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(item: Anime?) {
+        binding.name.text = item?.anime
+        binding.character.text = item?.character
+        binding.quote.text = item?.quote
     }
 
 }

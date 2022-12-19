@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.onscreen.databinding.FragmentAnimeBinding
 import com.project.onscreen.views.adapter.AnimeAdapter
 import com.project.onscreen.views.intent.OnScreenIntent
+import com.project.onscreen.views.viewState.AnimeState
 import com.project.onscreen.views.viewState.OnScreenState
 import com.project.onscreen.views.viewmodel.AnimeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,23 +49,23 @@ class AnimeFragment : Fragment() {
         lifecycleScope.launch {
             animeViewModel.state.collect {
                 when (it) {
-                    is OnScreenState.IDLE -> {
+                    is AnimeState.IDLE -> {
                         //no ops
                     }
-                    is OnScreenState.LOADING -> {
+                    is AnimeState.LOADING -> {
                         fragmentAnimeBinding.progress.visibility = View.VISIBLE
                         fragmentAnimeBinding.recyclerView.visibility = View.GONE
 
                     }
 
-                    is OnScreenState.SUCCESS -> {
+                    is AnimeState.SUCCESS -> {
                         fragmentAnimeBinding.recyclerView.visibility = View.VISIBLE
                         fragmentAnimeBinding.progress.visibility = View.GONE
 
                         it.animes.let { it1 -> adapter.addItem(it1) }
                         adapter.notifyDataSetChanged()
                     }
-                    is OnScreenState.ERROR -> {
+                    is AnimeState.ERROR -> {
                         fragmentAnimeBinding.progress.visibility = View.GONE
                         Toast.makeText(context, it.error, Toast.LENGTH_LONG).show()
                     }

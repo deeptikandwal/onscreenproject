@@ -1,5 +1,7 @@
 package com.project.onscreen.di.module
 
+import android.app.Application
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.project.onscreen.BuildConfig
@@ -7,8 +9,9 @@ import com.project.onscreen.data.api.ApiConstants
 import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.api.ApiHelperImpl
 import com.project.onscreen.data.api.ApiService
-import com.project.onscreen.data.repository.MainRepository
-import com.project.onscreen.data.repository.MainRepositoryImpl
+import com.project.onscreen.data.db.OnScreenDB
+import com.project.onscreen.data.repository.OnScreenRepository
+import com.project.onscreen.data.repository.OnScreenRepositoryImpl
 import com.project.onscreen.domain.usecase.GetAnimesUseCase
 import com.project.onscreen.domain.usecase.GetAnimesUseCaseImpl
 import com.project.onscreen.domain.usecase.GetEmployeesUseCase
@@ -17,7 +20,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -86,21 +88,31 @@ class OnScreenModule {
 
     @Provides
     @Named(ApiConstants.BASE_URL)
-    fun provideUseCase(
-        @Named(ApiConstants.BASE_URL) apiHelper: ApiHelper,
-        mainRepository: MainRepository
-    ): GetEmployeesUseCase = GetEmployeesUseCaseImpl(apiHelper, mainRepository)
-
+    fun provideUseCase(@Named(ApiConstants.BASE_URL) onScreenRepository: OnScreenRepository): GetEmployeesUseCase =
+        GetEmployeesUseCaseImpl(onScreenRepository)
 
     @Provides
     @Named(ApiConstants.BASE_URL_ANIME)
-    fun provideUseCaseAnime(
-        @Named(ApiConstants.BASE_URL_ANIME) apiHelper: ApiHelper,
-        mainRepository: MainRepository?
-    ): GetAnimesUseCase = GetAnimesUseCaseImpl(apiHelper, mainRepository)
+    fun provideUseCaseAnime(@Named(ApiConstants.BASE_URL_ANIME) onScreenRepository: OnScreenRepository): GetAnimesUseCase =
+        GetAnimesUseCaseImpl(onScreenRepository)
 
     @Provides
-    @ViewModelScoped
-    fun provideMainRepository(): MainRepository = MainRepositoryImpl()
+    @Named(ApiConstants.BASE_URL)
+    fun provideRepository(
+        onScreenDB: OnScreenDB,
+        @Named(ApiConstants.BASE_URL) apiHelper: ApiHelper
+    ): OnScreenRepository = OnScreenRepositoryImpl(onScreenDB, apiHelper)
+
+    @Provides
+    @Named(ApiConstants.BASE_URL_ANIME)
+    fun provideRepositoryAnime(
+        onScreenDB: OnScreenDB,
+        @Named(ApiConstants.BASE_URL_ANIME) apiHelper: ApiHelper
+    ): OnScreenRepository = OnScreenRepositoryImpl(onScreenDB, apiHelper)
+
+    @Provides
+    fun provideDatabase(app: Application): OnScreenDB =
+        Room.databaseBuilder(app.applicationContext, OnScreenDB::class.java, "onscreen_database").allowMainThreadQueries()
+            .build()
 
 }

@@ -36,7 +36,8 @@ class HomeScreenViewModel @Inject constructor(
                     _state.emit(OnScreenState.LOADING)
                         try {
                             delay(500)
-                            _state.emit(OnScreenState.EMPLOYEES_SUCCESS(getEmployeesUseCase.getEmployees()))
+                           val result= getEmployeesUseCase.getEmployees()
+                            _state.emit(OnScreenState.SUCCESS(result))
                         }catch (e:Exception){
                             _state.emit(OnScreenState.ERROR(e.localizedMessage))
                         }
