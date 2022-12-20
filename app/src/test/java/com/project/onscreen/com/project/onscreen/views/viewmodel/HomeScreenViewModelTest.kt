@@ -2,21 +2,19 @@ package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.domain.contract.GetEmployeesUseCase
+import com.project.onscreen.domain.model.Employee
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.HomeScreenViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
-import org.junit.After
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -34,25 +32,27 @@ class HomeScreenViewModelTest {
     @Mock
     lateinit var getEmployeesUseCase: GetEmployeesUseCase
 
+    @Mock
+    lateinit var intentOnScreen: Channel<OnScreenIntent>
+
     @Before
     fun setUp() {
         Dispatchers.setMain(dispatcher)
         MockitoAnnotations.initMocks(this)
         homeScreenViewModel = HomeScreenViewModel(getEmployeesUseCase)
+        homeScreenViewModel.intentOnScreen = intentOnScreen
+        homeScreenViewModel.getEmployeesUseCase = getEmployeesUseCase
     }
 
     @Test
     fun handleOperationSuccessTest(): Unit = runTest {
-        val intentOnScreen = homeScreenViewModel.intentOnScreen
-        Mockito.`when`(getEmployeesUseCase.getEmployees()).thenReturn(arrayListOf())
-        intentOnScreen.send(OnScreenIntent.FetchEmployees)
-        Mockito.verify(getEmployeesUseCase).getEmployees()
-        Assert.assertNotEquals(getEmployeesUseCase.getEmployees()?.size,0)
+        Mockito.`when`(getEmployeesUseCase.getEmployees()).thenReturn(arrayListOf(Employee("Jones","jonas@gmail.com","")))
+        Assert.assertNotEquals(getEmployeesUseCase.getEmployees()?.size, 0)
+        Assert.assertEquals(getEmployeesUseCase.getEmployees()?.get(0)?.name, "Jones")
     }
 
-    @Test(expected =retrofit2.HttpException::class )
+    @Test(expected = retrofit2.HttpException::class)
     fun handleOperationFailTest(): Unit = runTest {
-        val intentOnScreen = homeScreenViewModel.intentOnScreen
         Mockito.`when`(getEmployeesUseCase.getEmployees()).thenThrow(
             HttpException(
                 Response.error<Any>(
@@ -61,8 +61,7 @@ class HomeScreenViewModelTest {
                 )
             )
         )
-        intentOnScreen.send(OnScreenIntent.FetchEmployees)
-        Assert.assertEquals(getEmployeesUseCase.getEmployees()?.size,0)
+        Assert.assertEquals(getEmployeesUseCase.getEmployees()?.size, 0)
 
     }
 

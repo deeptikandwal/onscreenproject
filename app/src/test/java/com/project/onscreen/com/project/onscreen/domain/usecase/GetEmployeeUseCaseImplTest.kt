@@ -2,8 +2,9 @@ package com.project.onscreen.com.project.onscreen.domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.api.ApiHelper
-import com.project.onscreen.data.model.EmployeeList
+import com.project.onscreen.data.response.EmployeeListDto
 import com.project.onscreen.data.repository.OnScreenRepository
+import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,10 +12,7 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -22,7 +20,7 @@ import org.mockito.MockitoAnnotations
 
 @OptIn(ExperimentalCoroutinesApi::class)
 
-class GetEmployeeUseCaseImpl {
+class GetEmployeeUseCaseImplTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
     val dispatcher = TestCoroutineDispatcher()
@@ -32,7 +30,7 @@ class GetEmployeeUseCaseImpl {
     @Mock
     lateinit var onScreenRepository: OnScreenRepository
     @Mock
-    lateinit var mockList:ArrayList<EmployeeList>
+    lateinit var mockList:ArrayList<EmployeeListDto>
     @Before
     fun setUp(){
         MockitoAnnotations.initMocks(this)
@@ -41,15 +39,15 @@ class GetEmployeeUseCaseImpl {
     }
 
     @Test
-    fun `get employees in case of success`()= runTest{
+    fun `get employees`()= runTest{
         getEmployeesUseCaseImpl.getEmployees()
         Mockito.verify(onScreenRepository,Mockito.times(1)).getEmployees()
     }
 
     @Test
-    fun `get employees in case of failure`()= runTest{
-        getEmployeesUseCaseImpl.getEmployees()
-        Mockito.verify(onScreenRepository,Mockito.times(1)).getEmployees()
+    fun `convert to domain`()= runTest{
+        val list = arrayListOf(EmployeeListDto(1, "Naruto", "lotto@gmail.com", ""))
+        Assert.assertEquals(getEmployeesUseCaseImpl.convertToDomain(list).get(0).email,"lotto@gmail.com")
     }
     @After
     fun tearDown(){

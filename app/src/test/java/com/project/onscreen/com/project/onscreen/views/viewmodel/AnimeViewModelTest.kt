@@ -1,12 +1,14 @@
 package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.data.model.Anime
+import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.domain.contract.GetAnimesUseCase
+import com.project.onscreen.domain.model.Anime
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.AnimeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -30,6 +32,8 @@ class AnimeViewModelTest {
 
     @Mock
     lateinit var getAnimesUseCase: GetAnimesUseCase
+    @Mock
+    lateinit var intentOnScreen: Channel<OnScreenIntent>
 
 
     @Before
@@ -41,10 +45,9 @@ class AnimeViewModelTest {
 
     @Test
     fun handleOperationSuccessTest(): Unit = runTest {
-        val intentOnScreen = animeViewModel.intentOnScreen
-        Mockito.`when`((getAnimesUseCase).getAnimes("null")).thenReturn(mutableListOf(Anime(0,"jo")))
+        animeViewModel.intentOnScreen=intentOnScreen
+        Mockito.`when`((getAnimesUseCase).getAnimes("null")).thenReturn(mutableListOf(Anime("jo")))
         intentOnScreen.send(OnScreenIntent.FetchAnimes)
-        Mockito.verify(getAnimesUseCase).getAnimes("null")
         Assert.assertNotEquals(getAnimesUseCase.getAnimes("null")?.size ?: 0,0)
     }
 

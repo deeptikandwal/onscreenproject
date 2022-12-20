@@ -1,7 +1,6 @@
 package com.project.onscreen.views.viewState
 
-import com.project.onscreen.data.model.Anime
-import com.project.onscreen.data.model.EmployeeList
+import com.project.onscreen.domain.model.Anime
 
 sealed class AnimeState{
     object IDLE:AnimeState()

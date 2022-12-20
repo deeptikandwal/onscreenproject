@@ -13,8 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.onscreen.R
-import com.project.onscreen.data.model.EmployeeList
+import com.project.onscreen.data.response.EmployeeListDto
 import com.project.onscreen.databinding.FragmentHomeScreenBinding
+import com.project.onscreen.domain.model.Employee
 import com.project.onscreen.views.adapter.OnScreenAdapter
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
@@ -73,7 +74,7 @@ class HomeScreenFragment : Fragment() {
                     is OnScreenState.SUCCESS -> {
                         fragmentHomeScreenBinding.progress.visibility = View.GONE
                         fragmentHomeScreenBinding.recycler.visibility = View.VISIBLE
-                        updateList(it.user as ArrayList<EmployeeList>)
+                        updateList(it.user as ArrayList<Employee>)
                     }
 
                     is OnScreenState.ERROR -> {
@@ -94,7 +95,7 @@ class HomeScreenFragment : Fragment() {
 
     }
 
-    private fun updateList(users: ArrayList<EmployeeList>) {
+    private fun updateList(users: ArrayList<Employee>) {
         users.let {
             adapter.clearItem()
             adapter.addItem(users)

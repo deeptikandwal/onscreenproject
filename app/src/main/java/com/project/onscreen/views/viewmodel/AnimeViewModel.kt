@@ -18,7 +18,7 @@ import javax.inject.Named
 @HiltViewModel
 class AnimeViewModel @Inject constructor(@Named(ApiConstants.BASE_URL_ANIME) var getAnimesUseCase: GetAnimesUseCase) :
     ViewModel() {
-     val intentOnScreen = Channel<OnScreenIntent>(Channel.UNLIMITED)
+     var intentOnScreen = Channel<OnScreenIntent>(Channel.UNLIMITED)
     private val _state = MutableSharedFlow<AnimeState>()
     val state: SharedFlow<AnimeState>
         get() = _state

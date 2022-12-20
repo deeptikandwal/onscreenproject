@@ -1,10 +1,10 @@
-package com.project.onscreen.data.model
+package com.project.onscreen.data.response
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 @Entity(tableName = "Animes")
-data class Anime(
+data class AnimeDto(
     @PrimaryKey(autoGenerate = true)
     val id:Int?=null,
     @SerializedName("anime")

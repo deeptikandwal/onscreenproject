@@ -2,9 +2,9 @@ package com.project.onscreen.views.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.project.onscreen.data.model.EmployeeList
 import com.project.onscreen.data.utils.ApiConstants
 import com.project.onscreen.domain.contract.GetEmployeesUseCase
+import com.project.onscreen.domain.model.Employee
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,10 +18,10 @@ import javax.inject.Named
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     @Named(ApiConstants.BASE_URL)
-    val getEmployeesUseCase: GetEmployeesUseCase
+    var getEmployeesUseCase: GetEmployeesUseCase
 ) : ViewModel() {
-    var result: ArrayList<EmployeeList>?=null
-    val intentOnScreen = Channel<OnScreenIntent>(Channel.UNLIMITED)
+    var result: ArrayList<Employee>?=null
+    var intentOnScreen = Channel<OnScreenIntent>(Channel.UNLIMITED)
     private val _state = MutableSharedFlow<OnScreenState>()
     val state: SharedFlow<OnScreenState>
         get() = _state
@@ -39,7 +39,7 @@ class HomeScreenViewModel @Inject constructor(
                         _state.emit(OnScreenState.LOADING)
                         try {
                             delay(500)
-                             result = getEmployeesUseCase.getEmployees()
+                             result = getEmployeesUseCase.getEmployees() as ArrayList<Employee>
                             _state.emit(OnScreenState.SUCCESS(result))
                         } catch (e: Exception) {
                             _state.emit(OnScreenState.ERROR(e.localizedMessage))

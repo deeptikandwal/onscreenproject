@@ -3,8 +3,9 @@ package com.project.onscreen.views.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.project.onscreen.data.model.Anime
+import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.databinding.AnimeListBinding
+import com.project.onscreen.domain.model.Anime
 
 class AnimeAdapter(val employees: ArrayList<Anime>?) :
     RecyclerView.Adapter<AnimeViewHolder>() {

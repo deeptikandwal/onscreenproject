@@ -1,9 +1,9 @@
 package com.project.onscreen.data.repository
 
-import com.project.onscreen.data.model.Anime
-import com.project.onscreen.data.model.EmployeeList
+import com.project.onscreen.data.response.AnimeDto
+import com.project.onscreen.data.response.EmployeeListDto
 
 interface OnScreenRepository {
-   suspend fun getEmployees(): ArrayList<EmployeeList>?
-   suspend fun getAnimeList(title: String?): ArrayList<Anime>?
+   suspend fun getEmployees(): ArrayList<EmployeeListDto>?
+   suspend fun getAnimeList(title: String?): ArrayList<AnimeDto>?
 }
