@@ -1,7 +1,5 @@
 package com.project.onscreen.di.module
 
-import android.app.Application
-import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.project.onscreen.BuildConfig
@@ -110,9 +108,6 @@ class OnScreenModule {
         @Named(ApiConstants.BASE_URL_ANIME) apiHelper: ApiHelper
     ): OnScreenRepository = OnScreenRepositoryImpl(onScreenDB, apiHelper)
 
-    @Provides
-    fun provideDatabase(app: Application): OnScreenDB =
-        Room.databaseBuilder(app.applicationContext, OnScreenDB::class.java, "onscreen_database").allowMainThreadQueries()
-            .build()
+
 
 }
