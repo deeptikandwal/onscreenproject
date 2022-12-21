@@ -3,7 +3,7 @@ package com.project.onscreen.views.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.onscreen.data.utils.ApiConstants
-import com.project.onscreen.domain.contract.GetEmployeesUseCase
+import com.project.onscreen.domain.usecase.GetEmployeesUseCase
 import com.project.onscreen.domain.model.Employee
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState

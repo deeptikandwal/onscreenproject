@@ -1,4 +1,4 @@
-package com.project.onscreen.data.repository
+package com.project.onscreen.domain.repository
 
 import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.data.response.EmployeeListDto

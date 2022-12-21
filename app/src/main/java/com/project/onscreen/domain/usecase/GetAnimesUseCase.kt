@@ -1,4 +1,4 @@
-package com.project.onscreen.domain.contract
+package com.project.onscreen.domain.usecase
 
 import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.domain.model.Anime

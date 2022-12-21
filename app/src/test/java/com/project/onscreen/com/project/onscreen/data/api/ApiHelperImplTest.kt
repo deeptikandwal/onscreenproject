@@ -1,4 +1,4 @@
-package com.project.onscreen.com.project.onscreen.api
+package com.project.onscreen.com.project.onscreen.data.api
 
 import com.google.gson.Gson
 import com.project.onscreen.data.api.ApiHelperImpl

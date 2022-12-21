@@ -1,6 +1,6 @@
-package com.project.onscreen.domain.usecase
-import com.project.onscreen.domain.contract.GetAnimesUseCase
-import com.project.onscreen.data.repository.OnScreenRepository
+package com.project.onscreen.data.usecase
+import com.project.onscreen.domain.usecase.GetAnimesUseCase
+import com.project.onscreen.domain.repository.OnScreenRepository
 import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.domain.model.Anime
 

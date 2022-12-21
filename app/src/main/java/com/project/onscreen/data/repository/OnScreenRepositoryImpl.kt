@@ -1,10 +1,10 @@
-package com.project.onscreen.domain.repository
+package com.project.onscreen.data.repository
 
 import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.db.OnScreenDB
-import com.project.onscreen.data.repository.OnScreenRepository
 import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.data.response.EmployeeListDto
+import com.project.onscreen.domain.repository.OnScreenRepository
 import javax.inject.Inject
 
 class OnScreenRepositoryImpl @Inject constructor(

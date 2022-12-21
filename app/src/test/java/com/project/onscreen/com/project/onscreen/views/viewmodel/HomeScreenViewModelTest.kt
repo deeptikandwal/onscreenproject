@@ -1,7 +1,7 @@
 package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.domain.contract.GetEmployeesUseCase
+import com.project.onscreen.domain.usecase.GetEmployeesUseCase
 import com.project.onscreen.domain.model.Employee
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.HomeScreenViewModel

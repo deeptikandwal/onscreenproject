@@ -1,9 +1,9 @@
-package com.project.onscreen.com.project.onscreen.domain.usecase
+package com.project.onscreen.com.project.onscreen.data.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.data.repository.OnScreenRepository
+import com.project.onscreen.domain.repository.OnScreenRepository
 import com.project.onscreen.data.response.AnimeDto
-import com.project.onscreen.domain.usecase.GetAnimesUseCaseImpl
+import com.project.onscreen.data.usecase.GetAnimesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

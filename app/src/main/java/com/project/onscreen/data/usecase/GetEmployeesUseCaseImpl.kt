@@ -1,8 +1,8 @@
-package com.project.onscreen.domain.usecase
+package com.project.onscreen.data.usecase
 
 import com.project.onscreen.data.response.EmployeeListDto
-import com.project.onscreen.domain.contract.GetEmployeesUseCase
-import com.project.onscreen.data.repository.OnScreenRepository
+import com.project.onscreen.domain.usecase.GetEmployeesUseCase
+import com.project.onscreen.domain.repository.OnScreenRepository
 import com.project.onscreen.domain.model.Employee
 
 class GetEmployeesUseCaseImpl(

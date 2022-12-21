@@ -7,7 +7,7 @@ import com.project.onscreen.data.db.EmployeesDao
 import com.project.onscreen.data.db.OnScreenDB
 import com.project.onscreen.data.response.AnimeDto
 import com.project.onscreen.data.response.EmployeeListDto
-import com.project.onscreen.domain.repository.OnScreenRepositoryImpl
+import com.project.onscreen.data.repository.OnScreenRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -19,11 +19,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class OnScreenRepositoryImplTest {
