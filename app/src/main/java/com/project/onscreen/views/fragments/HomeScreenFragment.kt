@@ -90,7 +90,7 @@ class HomeScreenFragment : Fragment() {
             }
         }
         fragmentHomeScreenBinding.back.setOnClickListener {
-            activity?.onBackPressed()
+            activity?.finish()
         }
 
     }
