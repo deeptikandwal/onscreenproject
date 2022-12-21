@@ -86,6 +86,7 @@ class HomeScreenFragment : Fragment() {
         }
         fragmentHomeScreenBinding.fetch.setOnClickListener {
             lifecycleScope.launch {
+                fragmentHomeScreenBinding.recycler.scrollToPosition(0)
                 mhomescreenViewModel.intentOnScreen.send(OnScreenIntent.FetchEmployees)
             }
         }
