@@ -6,8 +6,8 @@ import com.project.onscreen.data.db.OnScreenDB
 import com.project.onscreen.data.mapper.Mapper
 import com.project.onscreen.domain.repository.OnScreenRepository
 import com.project.onscreen.data.repository.OnScreenRepositoryImpl
-import com.project.onscreen.data.usecase.GetAnimesUseCaseImpl
-import com.project.onscreen.data.usecase.GetEmployeesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetAnimesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

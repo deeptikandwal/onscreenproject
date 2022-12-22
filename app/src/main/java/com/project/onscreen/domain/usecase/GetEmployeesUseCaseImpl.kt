@@ -1,4 +1,4 @@
-package com.project.onscreen.data.usecase
+package com.project.onscreen.domain.usecase
 
 import com.project.onscreen.domain.model.EmployeeDomainModel
 import com.project.onscreen.domain.repository.OnScreenRepository

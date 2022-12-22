@@ -1,7 +1,7 @@
 package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.data.usecase.GetAnimesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetAnimesUseCaseImpl
 import com.project.onscreen.domain.model.AnimeDomainModel
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.AnimeViewModel

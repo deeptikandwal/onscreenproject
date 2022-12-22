@@ -3,7 +3,7 @@ package com.project.onscreen.com.project.onscreen.data.usecase
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.project.onscreen.data.response.EmployeeListDto
 import com.project.onscreen.domain.repository.OnScreenRepository
-import com.project.onscreen.data.usecase.GetEmployeesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

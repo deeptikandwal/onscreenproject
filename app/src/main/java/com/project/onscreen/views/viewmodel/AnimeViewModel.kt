@@ -4,7 +4,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.project.onscreen.data.usecase.GetAnimesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetAnimesUseCaseImpl
 import com.project.onscreen.data.utils.ApiConstants
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.AnimeState

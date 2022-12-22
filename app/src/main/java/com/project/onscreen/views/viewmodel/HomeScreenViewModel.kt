@@ -2,7 +2,7 @@ package com.project.onscreen.views.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.project.onscreen.data.usecase.GetEmployeesUseCaseImpl
+import com.project.onscreen.domain.usecase.GetEmployeesUseCaseImpl
 import com.project.onscreen.data.utils.ApiConstants
 import com.project.onscreen.domain.model.EmployeeDomainModel
 import com.project.onscreen.views.intent.OnScreenIntent
