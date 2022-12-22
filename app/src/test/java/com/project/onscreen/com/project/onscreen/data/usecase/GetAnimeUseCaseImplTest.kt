@@ -21,7 +21,6 @@ import org.mockito.MockitoAnnotations
 class GetAnimeUseCaseImplTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
-    val dispatcher = TestCoroutineDispatcher()
     lateinit var getAnimesUseCaseImpl: GetAnimesUseCaseImpl
 
     @Mock
@@ -30,7 +29,6 @@ class GetAnimeUseCaseImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        Dispatchers.setMain(dispatcher)
         getAnimesUseCaseImpl = GetAnimesUseCaseImpl(onScreenRepository)
     }
 
@@ -40,14 +38,4 @@ class GetAnimeUseCaseImplTest {
         Mockito.verify(onScreenRepository, Mockito.times(1)).getAnimeList("Naruto")
     }
 
-    @Test
-    fun convertToDomainTest() = runTest {
-        val list = arrayListOf(AnimeDto(1, "Naruto", "pain", "This is my nindo"))
-        Assert.assertEquals(getAnimesUseCaseImpl.convertToDomain(list).get(0).quote,"This is my nindo")
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
 }

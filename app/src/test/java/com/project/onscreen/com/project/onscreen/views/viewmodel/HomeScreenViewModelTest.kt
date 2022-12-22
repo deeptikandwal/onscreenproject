@@ -1,13 +1,17 @@
 package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.domain.usecase.GetEmployeesUseCase
-import com.project.onscreen.domain.model.Employee
+import com.project.onscreen.data.usecase.GetEmployeesUseCaseImpl
+import com.project.onscreen.domain.model.EmployeeDomainModel
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.HomeScreenViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -30,7 +34,7 @@ class HomeScreenViewModelTest {
     lateinit var homeScreenViewModel: HomeScreenViewModel
 
     @Mock
-    lateinit var getEmployeesUseCase: GetEmployeesUseCase
+    lateinit var getEmployeesUseCase: GetEmployeesUseCaseImpl
 
     @Mock
     lateinit var intentOnScreen: Channel<OnScreenIntent>
@@ -46,9 +50,10 @@ class HomeScreenViewModelTest {
 
     @Test
     fun handleOperationSuccessTest(): Unit = runTest {
-        Mockito.`when`(getEmployeesUseCase.getEmployees()).thenReturn(arrayListOf(Employee("Jones","jonas@gmail.com","")))
-        Assert.assertNotEquals(getEmployeesUseCase.getEmployees()?.size, 0)
-        Assert.assertEquals(getEmployeesUseCase.getEmployees()?.get(0)?.name, "Jones")
+        Mockito.`when`(getEmployeesUseCase.getEmployees()).thenReturn(flowOf( listOf(EmployeeDomainModel(1,"Jones","jonas@gmail.com",""))))
+        val employeeList=getEmployeesUseCase.getEmployees().flatMapConcat { it.asFlow()}.toList()
+        Assert.assertNotEquals(employeeList.size, 0)
+        Assert.assertEquals(employeeList.get(0).name, "Jones")
     }
 
     @Test(expected = retrofit2.HttpException::class)
@@ -61,7 +66,7 @@ class HomeScreenViewModelTest {
                 )
             )
         )
-        Assert.assertEquals(getEmployeesUseCase.getEmployees()?.size, 0)
+        Assert.assertEquals(getEmployeesUseCase.getEmployees().flatMapConcat { it.asFlow()}.toList().size, 0)
 
     }
 

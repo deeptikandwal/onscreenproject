@@ -1,13 +1,14 @@
 package com.project.onscreen.com.project.onscreen.views.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.domain.usecase.GetAnimesUseCase
-import com.project.onscreen.domain.model.Anime
+import com.project.onscreen.data.usecase.GetAnimesUseCaseImpl
+import com.project.onscreen.domain.model.AnimeDomainModel
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewmodel.AnimeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -16,6 +17,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import org.junit.*
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -24,13 +26,14 @@ import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AnimeViewModelTest {
+    @Mock
+    private lateinit var getAnimesUseCase: GetAnimesUseCaseImpl
+
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
     val dispatcher = TestCoroutineDispatcher()
     private lateinit var animeViewModel: AnimeViewModel
 
-    @Mock
-    lateinit var getAnimesUseCase: GetAnimesUseCase
     @Mock
     lateinit var intentOnScreen: Channel<OnScreenIntent>
 
@@ -40,19 +43,24 @@ class AnimeViewModelTest {
         Dispatchers.setMain(dispatcher)
         MockitoAnnotations.initMocks(this)
         animeViewModel = AnimeViewModel(getAnimesUseCase)
+        animeViewModel.intentOnScreen = intentOnScreen
+        animeViewModel.getAnimesUseCase = getAnimesUseCase
     }
 
     @Test
-    fun handleOperationSuccessTest(): Unit = runTest {
-        animeViewModel.intentOnScreen=intentOnScreen
-        Mockito.`when`((getAnimesUseCase).getAnimes("null")).thenReturn(mutableListOf(Anime("jo")))
+    fun handleOperationSuccessTest(): Unit = runTest(dispatcher) {
         intentOnScreen.send(OnScreenIntent.FetchAnimes)
-        Assert.assertNotEquals(getAnimesUseCase.getAnimes("null")?.size ?: 0,0)
+        Mockito.`when`(getAnimesUseCase.getAnimes("Naruto")).thenReturn(flowOf( listOf(
+            AnimeDomainModel(1,"Naruto","pain")
+        )))
+
+        val animeList=getAnimesUseCase.getAnimes("Naruto").flatMapConcat { it.asFlow()}.toList()
+        Assert.assertNotEquals(animeList.size, 0)
+        Assert.assertEquals(animeList.get(0).anime, "Naruto")
     }
 
-    @Test(expected =retrofit2.HttpException::class )
-    fun handleOperationFailTest(): Unit = runTest {
-        val intentOnScreen = animeViewModel.intentOnScreen
+    @Test(expected = retrofit2.HttpException::class)
+    fun handleOperationFailTest(): Unit = runTest(dispatcher) {
         Mockito.`when`((getAnimesUseCase).getAnimes("null")).thenThrow(
             HttpException(
                 Response.error<Any>(
@@ -61,8 +69,7 @@ class AnimeViewModelTest {
                 )
             )
         )
-        intentOnScreen.send(OnScreenIntent.FetchAnimes)
-        Assert.assertEquals((getAnimesUseCase).getAnimes("null")?.size,0)
+        Assert.assertEquals(getAnimesUseCase.getAnimes("null").flatMapConcat { it.asFlow()}.toList().size, 0)
 
     }
 

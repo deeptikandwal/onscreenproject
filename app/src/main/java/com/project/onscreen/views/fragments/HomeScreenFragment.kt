@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.onscreen.R
 import com.project.onscreen.data.response.EmployeeListDto
 import com.project.onscreen.databinding.FragmentHomeScreenBinding
-import com.project.onscreen.domain.model.Employee
+import com.project.onscreen.domain.model.EmployeeDomainModel
 import com.project.onscreen.views.adapter.OnScreenAdapter
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.OnScreenState
@@ -27,81 +28,79 @@ import kotlinx.coroutines.launch
 class HomeScreenFragment : Fragment() {
     lateinit var fragmentHomeScreenBinding: FragmentHomeScreenBinding
     val mhomescreenViewModel: HomeScreenViewModel by viewModels()
-    val adapter = OnScreenAdapter( arrayListOf(),
-        {
-        findNavController().navigate(R.id.homescreen_to_detailscreen)
-    })
+    val onScreenAdapter = OnScreenAdapter{ findNavController().navigate(R.id.homescreen_to_detailscreen) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentHomeScreenBinding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home_screen, container, false)
-        val view = fragmentHomeScreenBinding.root
+    ): View = FragmentHomeScreenBinding.inflate(layoutInflater,  container, false).also {
+        fragmentHomeScreenBinding=it
+    }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setViews()
         setObserver()
-        return view
     }
 
     private fun setViews() {
-        fragmentHomeScreenBinding.recycler.run {
-            addItemDecoration(
-                DividerItemDecoration(
-                    fragmentHomeScreenBinding.recycler.context,
-                    (fragmentHomeScreenBinding.recycler.layoutManager as LinearLayoutManager).orientation
-                )
-            )
+        with(fragmentHomeScreenBinding){
+            recycler.run {
+                addItemDecoration(DividerItemDecoration(recycler.context, (recycler.layoutManager as LinearLayoutManager).orientation))
+                adapter=onScreenAdapter
+            }
+            back.setOnClickListener {
+                activity?.finish()
+            }
+            fetch.setOnClickListener {
+                lifecycleScope.launch {
+                    fragmentHomeScreenBinding.recycler.scrollToPosition(0)
+                    mhomescreenViewModel.intentOnScreen.send(OnScreenIntent.FetchEmployees)
+                }
+            }
         }
-        fragmentHomeScreenBinding.recycler.adapter = adapter
 
     }
 
     private fun setObserver() {
         lifecycleScope.launch {
             mhomescreenViewModel.state.collect {
-                when (it) {
-                    is OnScreenState.IDLE -> {
-                        fragmentHomeScreenBinding.progress.visibility = View.GONE
-                    }
-                    is OnScreenState.LOADING -> {
-                        fragmentHomeScreenBinding.progress.also {
-                            it.visibility=View.VISIBLE
-                        }
-                        fragmentHomeScreenBinding.recycler.visibility = View.GONE
-
-                    }
-
-                    is OnScreenState.SUCCESS -> {
-                        fragmentHomeScreenBinding.progress.visibility = View.GONE
-                        fragmentHomeScreenBinding.recycler.visibility = View.VISIBLE
-                        updateList(it.user as ArrayList<Employee>)
-                    }
-
-                    is OnScreenState.ERROR -> {
-                        fragmentHomeScreenBinding.progress.visibility = View.GONE
-                        Toast.makeText(context, it.error, Toast.LENGTH_LONG).show()
-                    }
-                }
+                modifyUiBasedOnViewState(it)
             }
         }
-        fragmentHomeScreenBinding.fetch.setOnClickListener {
-            lifecycleScope.launch {
-                fragmentHomeScreenBinding.recycler.scrollToPosition(0)
-                mhomescreenViewModel.intentOnScreen.send(OnScreenIntent.FetchEmployees)
-            }
-        }
-        fragmentHomeScreenBinding.back.setOnClickListener {
-            activity?.finish()
-        }
-
     }
 
-    private fun updateList(users: ArrayList<Employee>) {
-        users.let {
-            adapter.clearItem()
-            adapter.addItem(users)
+    private fun modifyUiBasedOnViewState(it: OnScreenState) {
+        when (it) {
+            is OnScreenState.IDLE -> {
+                fragmentHomeScreenBinding.progress.visibility = View.GONE
+            }
+            is OnScreenState.LOADING -> {
+                with(fragmentHomeScreenBinding) {
+                    progress.visibility = View.VISIBLE
+                    recycler.visibility = View.GONE
+                }
+            }
+
+            is OnScreenState.SUCCESS -> {
+                with(fragmentHomeScreenBinding) {
+                    progress.visibility = View.GONE
+                    recycler.visibility = View.VISIBLE
+                }
+                updateList(it.user)
+            }
+
+            is OnScreenState.ERROR -> {
+                fragmentHomeScreenBinding.progress.visibility = View.GONE
+                Toast.makeText(context, it.error, Toast.LENGTH_LONG).show()
+            }
         }
-        adapter.notifyDataSetChanged()
+    }
+
+    private fun updateList(users: List<EmployeeDomainModel>) {
+        with(onScreenAdapter){
+            setDataList(users)
+            notifyDataSetChanged()
+        }
     }
 
 

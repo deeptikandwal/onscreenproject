@@ -1,16 +1,12 @@
 package com.project.onscreen.data.response
-
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-@Entity(tableName = "Animes")
 data class AnimeDto(
-    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
     val id:Int?=null,
     @SerializedName("anime")
-    val anime: String? = null,
+    val anime: String?=null,
     @SerializedName("character")
-    val character: String = "",
+    val character: String?=null,
     @SerializedName("quote")
-    val quote: String = ""
+    val quote: String?=null
 )

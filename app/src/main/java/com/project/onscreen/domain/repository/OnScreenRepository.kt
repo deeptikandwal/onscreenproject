@@ -1,9 +1,10 @@
 package com.project.onscreen.domain.repository
 
-import com.project.onscreen.data.response.AnimeDto
-import com.project.onscreen.data.response.EmployeeListDto
+import com.project.onscreen.domain.model.AnimeDomainModel
+import com.project.onscreen.domain.model.EmployeeDomainModel
+import kotlinx.coroutines.flow.Flow
 
 interface OnScreenRepository {
-   suspend fun getEmployees(): ArrayList<EmployeeListDto>?
-   suspend fun getAnimeList(title: String?): ArrayList<AnimeDto>?
+    fun getEmployees(): Flow<List<EmployeeDomainModel>>
+    fun getAnimeList(title: String?): Flow<List<AnimeDomainModel>>
 }

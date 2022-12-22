@@ -3,8 +3,6 @@ package com.project.onscreen.di.module
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.project.onscreen.BuildConfig
-import com.project.onscreen.data.api.ApiHelper
-import com.project.onscreen.data.api.ApiHelperImpl
 import com.project.onscreen.data.api.ApiService
 import com.project.onscreen.data.utils.ApiConstants
 import dagger.Module
@@ -22,6 +20,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
+    @Singleton
     @Provides
     fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -68,15 +67,5 @@ class NetworkModule {
     @Named(ApiConstants.BASE_URL_ANIME)
     fun provideApiServiceAnime(@Named(ApiConstants.BASE_URL_ANIME) retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
-
-    @Provides
-    @Named(ApiConstants.BASE_URL)
-    fun provideApiHelper(@Named(ApiConstants.BASE_URL) apiService: ApiService): ApiHelper =
-        ApiHelperImpl(apiService)
-
-    @Provides
-    @Named(ApiConstants.BASE_URL_ANIME)
-    fun provideApiHelperAnime(@Named(ApiConstants.BASE_URL_ANIME) apiService: ApiService): ApiHelper =
-        ApiHelperImpl(apiService)
 
 }

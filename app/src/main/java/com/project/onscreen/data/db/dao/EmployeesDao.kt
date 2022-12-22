@@ -1,19 +1,18 @@
-package com.project.onscreen.data.db
+package com.project.onscreen.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.project.onscreen.data.response.EmployeeListDto
-import com.project.onscreen.domain.model.Employee
+import com.project.onscreen.data.db.entity.EmployeeEntity
 
 @Dao
 interface EmployeesDao {
     @Query("SELECT * FROM Employees")
-    fun getAllEmployees(): List<EmployeeListDto>
+     fun getAllEmployees(): List<EmployeeEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEmployees(employees: ArrayList<EmployeeListDto>)
+    suspend fun insertEmployees(employees: List<EmployeeEntity>)
 
     @Query("DELETE FROM Employees")
     suspend fun deleteAllEmployees()

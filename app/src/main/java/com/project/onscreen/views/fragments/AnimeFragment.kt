@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +17,6 @@ import com.project.onscreen.databinding.FragmentAnimeBinding
 import com.project.onscreen.views.adapter.AnimeAdapter
 import com.project.onscreen.views.intent.OnScreenIntent
 import com.project.onscreen.views.viewState.AnimeState
-import com.project.onscreen.views.viewState.OnScreenState
 import com.project.onscreen.views.viewmodel.AnimeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,23 +25,26 @@ import kotlinx.coroutines.launch
 class AnimeFragment : Fragment() {
     lateinit var fragmentAnimeBinding: FragmentAnimeBinding
     val animeViewModel: AnimeViewModel by viewModels()
-    val adapter = AnimeAdapter(arrayListOf())
+    val animeAdapter = AnimeAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        fragmentAnimeBinding = FragmentAnimeBinding.inflate(layoutInflater, null, false)
-        val view = fragmentAnimeBinding.root
+    ): View=
+        DataBindingUtil.inflate<FragmentAnimeBinding?>(layoutInflater,R.layout.fragment_anime,container,false).also {
+         fragmentAnimeBinding =it
+        }.root
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setViews()
         setObserver()
-        return view
     }
 
     private fun setObserver() {
         animeViewModel.title.observe(viewLifecycleOwner, {
             lifecycleScope.launch {
-                adapter.clearItems()
                 animeViewModel.intentOnScreen.send(OnScreenIntent.FetchAnimes)
             }
         })
@@ -54,17 +56,22 @@ class AnimeFragment : Fragment() {
                         //no ops
                     }
                     is AnimeState.LOADING -> {
-                        fragmentAnimeBinding.progress.visibility = View.VISIBLE
-                        fragmentAnimeBinding.recyclerView.visibility = View.GONE
-
+                        with(fragmentAnimeBinding){
+                            progress.visibility=View.VISIBLE
+                            recyclerView.visibility = View.GONE
+                        }
                     }
 
                     is AnimeState.SUCCESS -> {
-                        fragmentAnimeBinding.recyclerView.visibility = View.VISIBLE
-                        fragmentAnimeBinding.progress.visibility = View.GONE
+                       fragmentAnimeBinding.run {
+                           progress.visibility = View.GONE
+                           recyclerView.visibility = View.VISIBLE
+                       }
 
-                        it.animes.let { it1 -> adapter.addItem(it1) }
-                        adapter.notifyDataSetChanged()
+                        with(animeAdapter) {
+                            setDataList(it.animes)
+                            notifyDataSetChanged()
+                        }
                     }
                     is AnimeState.ERROR -> {
                         fragmentAnimeBinding.progress.visibility = View.GONE
@@ -77,29 +84,15 @@ class AnimeFragment : Fragment() {
 
 
     private fun setViews() {
-        fragmentAnimeBinding.back.setOnClickListener {
-            findNavController().navigate(R.id.homescreen)
-        }
-        fragmentAnimeBinding.idSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                animeViewModel.title.value = query
-                return false
+        with(fragmentAnimeBinding) {
+            back.setOnClickListener {
+                findNavController().navigate(R.id.homescreen)
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-
-                return false
+            idSV.setOnQueryTextListener(animeViewModel.onQueryTextListener)
+            recyclerView.run {
+                addItemDecoration(DividerItemDecoration(recyclerView.context, (recyclerView.layoutManager as LinearLayoutManager).orientation))
+                adapter=animeAdapter
             }
-        })
-        fragmentAnimeBinding.recyclerView.run {
-            addItemDecoration(
-                DividerItemDecoration(
-                    fragmentAnimeBinding.recyclerView.context,
-                    (fragmentAnimeBinding.recyclerView.layoutManager as LinearLayoutManager).orientation
-                )
-            )
         }
-        fragmentAnimeBinding.recyclerView.adapter = adapter
-
     }
 }

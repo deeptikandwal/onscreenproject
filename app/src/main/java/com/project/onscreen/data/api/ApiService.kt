@@ -7,9 +7,9 @@ import retrofit2.http.Query
 
 interface ApiService {
    @GET("users")
-   suspend fun fetchEmployees():ArrayList<EmployeeListDto>
+   suspend fun fetchEmployees(): List<EmployeeListDto>
 
    @GET("api/quotes/anime")
-   suspend fun fetchAnimeUsingTitle( @Query("title") title: String?):ArrayList<AnimeDto>
+   suspend fun fetchAnimeUsingTitle( @Query("title") title: String?):List<AnimeDto>
 
 }

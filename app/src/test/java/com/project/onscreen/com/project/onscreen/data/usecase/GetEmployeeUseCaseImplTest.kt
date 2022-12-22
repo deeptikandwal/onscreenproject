@@ -1,7 +1,6 @@
 package com.project.onscreen.com.project.onscreen.data.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.project.onscreen.data.api.ApiHelper
 import com.project.onscreen.data.response.EmployeeListDto
 import com.project.onscreen.domain.repository.OnScreenRepository
 import com.project.onscreen.data.usecase.GetEmployeesUseCaseImpl
@@ -22,18 +21,12 @@ import org.mockito.MockitoAnnotations
 class GetEmployeeUseCaseImplTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
-    val dispatcher = TestCoroutineDispatcher()
     lateinit var getEmployeesUseCaseImpl: GetEmployeesUseCaseImpl
     @Mock
-    lateinit var apiHelper: ApiHelper
-    @Mock
     lateinit var onScreenRepository: OnScreenRepository
-    @Mock
-    lateinit var mockList:ArrayList<EmployeeListDto>
     @Before
     fun setUp(){
         MockitoAnnotations.initMocks(this)
-        Dispatchers.setMain(dispatcher)
         getEmployeesUseCaseImpl= GetEmployeesUseCaseImpl(onScreenRepository)
     }
 
@@ -43,13 +36,4 @@ class GetEmployeeUseCaseImplTest {
         Mockito.verify(onScreenRepository,Mockito.times(1)).getEmployees()
     }
 
-    @Test
-    fun `convert to domain`()= runTest{
-        val list = arrayListOf(EmployeeListDto(1, "Naruto", "lotto@gmail.com", ""))
-        Assert.assertEquals(getEmployeesUseCaseImpl.convertToDomain(list).get(0).email,"lotto@gmail.com")
-    }
-    @After
-    fun tearDown(){
-        Dispatchers.resetMain()
-    }
 }
