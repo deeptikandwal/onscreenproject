@@ -1,7 +1,6 @@
 package com.project.onscreen.views.viewmodel
 
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -41,10 +40,7 @@ class AnimeViewModel @Inject constructor(@Named(ApiConstants.BASE_URL_ANIME) var
                         _state.emit(AnimeState.LOADING)
                         try {
                             delay(500)
-                            val result =
-                                getAnimesUseCase.getAnimes(title.value.toString()).flatMapConcat {
-                                    it.asFlow()
-                                }.toList()
+                            val result = convertToList()
                             _state.emit(AnimeState.SUCCESS(result))
                         } catch (e: Exception) {
                             _state.emit(AnimeState.ERROR(e.message))
@@ -58,7 +54,13 @@ class AnimeViewModel @Inject constructor(@Named(ApiConstants.BASE_URL_ANIME) var
         }
     }
 
-     val onQueryTextListener: SearchView.OnQueryTextListener =
+    @OptIn(FlowPreview::class)
+    private suspend fun convertToList() =
+        getAnimesUseCase.getAnimes(title.value.toString()).flatMapConcat {
+            it.asFlow()
+        }.toList()
+
+    val onQueryTextListener: SearchView.OnQueryTextListener =
         object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 title.value = query

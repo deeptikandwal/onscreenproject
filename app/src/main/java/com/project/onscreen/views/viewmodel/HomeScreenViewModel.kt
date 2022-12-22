@@ -41,7 +41,7 @@ class HomeScreenViewModel @Inject constructor(
                         _state.emit(OnScreenState.LOADING)
                         try {
                             delay(500)
-                             result = getEmployeesUseCase.getEmployees().flatMapConcat { it.asFlow() }.toList()
+                             result = convertToList()
                             _state.emit(OnScreenState.SUCCESS(result))
                         } catch (e: Exception) {
                             _state.emit(OnScreenState.ERROR(e.localizedMessage))
@@ -52,5 +52,9 @@ class HomeScreenViewModel @Inject constructor(
         }
 
     }
+
+    @OptIn(FlowPreview::class)
+    private suspend fun convertToList() =
+        getEmployeesUseCase.getEmployees().flatMapConcat { it.asFlow() }.toList()
 
 }
